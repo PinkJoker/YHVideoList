@@ -8,7 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^successBlock)(id response);
+typedef void(^failBlock)(id response);
+
 @interface RequestTool : NSObject
 @property(nonatomic, strong)RACCommand *requestCommand;
--(void)RequstwithUrl:(NSString *)url withParameters:(NSDictionary *)dic;
+
+@property(nonatomic, strong)RACSignal *signalDelegate;
+
+//@property(nonatomic, copy)successBlock successblock;
+//@property(nonatomic, copy)failBlock failblock;
++(void)RequstwithGetUrl:(NSString *)url withParameters:(NSDictionary *)dic withSuccess:(successBlock)success withFail:(failBlock)fail;
 @end

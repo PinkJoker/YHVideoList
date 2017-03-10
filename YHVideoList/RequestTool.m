@@ -18,22 +18,30 @@
     return self;
 }
 
--(void)RequstwithUrl:(NSString *)url withParameters:(NSDictionary *)dic
++(void)RequstwithGetUrl:(NSString *)url withParameters:(NSDictionary *)dic withSuccess:(successBlock)success withFail:(failBlock)fail
 {
-    self.requestCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
-        RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-            AFHTTPSessionManager *manager  = [AFHTTPSessionManager manager];
-            [manager POST:@"http://api.budejie.com/api/api_open.php" parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
-                
-            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                [subscriber sendNext:responseObject];
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                [subscriber sendNext:error];
-            }];
-            return nil;
-        }];
-        return signal;
+    AFHTTPSessionManager *manager  = [AFHTTPSessionManager manager];
+    [manager GET:@"http://api.budejie.com/api/api_open.php" parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        [subscriber sendNext:responseObject];
+//        [subscriber sendCompleted];
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+       // [subscriber sendNext:error];
+        if (fail) {
+            fail(error);
+        }
     }];
+
+//    self.requestCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
+//        RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//                      return nil;
+//        }];
+//        return signal;
+//    }];
 }
 
 @end
