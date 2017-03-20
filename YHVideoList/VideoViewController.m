@@ -10,6 +10,7 @@
 #import "VideoModel.h"
 #import "VideoDataModal.h"
 #import "RequestTool.h"
+#import "VideoDataTool.h"
 @interface VideoViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic, strong)UITableView *videoTableView;
 @property(nonatomic, strong)NSMutableArray *videoArray;
@@ -56,8 +57,17 @@ static NSString * const VideoCell = @"VideoCell";
     modal.recentTime = dataModal.created_at;
     modal.page = 0;
     modal.maxtime = nil;
-    RequestTool *tool = [[RequestTool alloc]init];
-    [tool RequstwithUrl:modal withParameters:<#(NSDictionary *)#>]
+
+    [VideoDataTool videoWithParameters:modal success:^(NSArray *array, NSString *maxtime) {
+        self.maxtime = maxtime;
+        self.videoArray = [array mutableCopy];
+        [self.videoTableView reloadData];
+        [self.videoTableView.mj_header endRefreshing];
+    } failure:^(NSError *error) {
+        
+        
+    }];
+
 }
 
 
@@ -81,7 +91,7 @@ static NSString * const VideoCell = @"VideoCell";
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.videoArray.count;
 }
 
 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class VideoModel;
 @interface VideoDataTool : NSObject
-
++(void)videoWithParameters:(VideoModel *)videoParameters success:(void (^)(NSArray *array, NSString *maxtime))success failure:(void (^)(NSError *error))failure;
 @end

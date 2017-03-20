@@ -33,6 +33,7 @@ PODS:
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
+  - Masonry (1.0.1)
   - MJExtension (3.0.10)
   - MJRefresh (3.1.9)
   - pop (1.0.9)
@@ -53,6 +54,7 @@ DEPENDENCIES:
   - BlocksKit (~> 2.2.5)
   - FDFullscreenPopGesture (~> 1.1)
   - FMDB (~> 2.6.2)
+  - Masonry (~> 1.0.1)
   - MJExtension (~> 3.0.10)
   - MJRefresh (~> 3.1.9)
   - pop (~> 1.0.9)
@@ -65,6 +67,7 @@ SPEC CHECKSUMS:
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
   MJRefresh: c5f1f1653e5a1b932c90f78074f2bc86f3f9bd5e
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -72,6 +75,6 @@ SPEC CHECKSUMS:
   SDAutoLayout: 4910758003bbb043003700915b00f53fbc2bf512
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
 
-PODFILE CHECKSUM: c94c7420cc97a0a99dc7134f5c3ee9176bb5eba3
+PODFILE CHECKSUM: d7ac4fe6c7f29dce8019b61549164e5ef78cf912
 
 COCOAPODS: 1.0.1

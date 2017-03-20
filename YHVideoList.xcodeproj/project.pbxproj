@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		370E6AA71E77D1ED0013CA96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 370E6AA61E77D1ED0013CA96 /* Assets.xcassets */; };
 		37A848A41E70F56500CFF53A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A848A31E70F56500CFF53A /* main.m */; };
 		37A848A71E70F56600CFF53A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A848A61E70F56600CFF53A /* AppDelegate.m */; };
 		37A848AD1E70F56600CFF53A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A848AB1E70F56600CFF53A /* Main.storyboard */; };
-		37A848AF1E70F56700CFF53A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A848AE1E70F56700CFF53A /* Assets.xcassets */; };
 		37A848B21E70F56700CFF53A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A848B01E70F56700CFF53A /* LaunchScreen.storyboard */; };
 		37A848BC1E70F9AD00CFF53A /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A848BB1E70F9AD00CFF53A /* VideoViewController.m */; };
 		37A848BF1E70FACC00CFF53A /* MainTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A848BE1E70FACC00CFF53A /* MainTabbarViewController.m */; };
@@ -21,16 +21,18 @@
 		37A848D11E71316700CFF53A /* RequestTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A848D01E71316700CFF53A /* RequestTool.m */; };
 		37A848D41E71354E00CFF53A /* VideoDataModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A848D31E71354E00CFF53A /* VideoDataModal.m */; };
 		37A848D71E7138C000CFF53A /* VideoDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A848D61E7138C000CFF53A /* VideoDataTool.m */; };
+		37CE944D1E724B1E0066D33D /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CE944C1E724B1E0066D33D /* VideoTableViewCell.m */; };
+		37CE94501E724D5E0066D33D /* videoPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CE944F1E724D5E0066D33D /* videoPlayView.m */; };
 		6C3661ADB97BAF942930462C /* Pods_YHVideoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7A0403ED9B14FCAFED3D2F /* Pods_YHVideoList.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		370E6AA61E77D1ED0013CA96 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37A8489F1E70F56500CFF53A /* YHVideoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YHVideoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A848A31E70F56500CFF53A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		37A848A51E70F56500CFF53A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		37A848A61E70F56600CFF53A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		37A848AC1E70F56600CFF53A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		37A848AE1E70F56700CFF53A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37A848B11E70F56700CFF53A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		37A848B31E70F56800CFF53A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37A848B91E70F8C200CFF53A /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -52,6 +54,10 @@
 		37A848D31E71354E00CFF53A /* VideoDataModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoDataModal.m; sourceTree = "<group>"; };
 		37A848D51E7138C000CFF53A /* VideoDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDataTool.h; sourceTree = "<group>"; };
 		37A848D61E7138C000CFF53A /* VideoDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoDataTool.m; sourceTree = "<group>"; };
+		37CE944B1E724B1E0066D33D /* VideoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTableViewCell.h; sourceTree = "<group>"; };
+		37CE944C1E724B1E0066D33D /* VideoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewCell.m; sourceTree = "<group>"; };
+		37CE944E1E724D5E0066D33D /* videoPlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videoPlayView.h; sourceTree = "<group>"; };
+		37CE944F1E724D5E0066D33D /* videoPlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = videoPlayView.m; sourceTree = "<group>"; };
 		42420E2AAE6F6233435B46A9 /* Pods-YHVideoList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YHVideoList.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YHVideoList/Pods-YHVideoList.debug.xcconfig"; sourceTree = "<group>"; };
 		5C5CE6A77BD431C266565F55 /* Pods-YHVideoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YHVideoList.release.xcconfig"; path = "Pods/Target Support Files/Pods-YHVideoList/Pods-YHVideoList.release.xcconfig"; sourceTree = "<group>"; };
 		BC7A0403ED9B14FCAFED3D2F /* Pods_YHVideoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YHVideoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +117,10 @@
 				37A848C71E712AEB00CFF53A /* PhotoViewController.m */,
 				37A848BA1E70F9AD00CFF53A /* VideoViewController.h */,
 				37A848BB1E70F9AD00CFF53A /* VideoViewController.m */,
+				37CE944B1E724B1E0066D33D /* VideoTableViewCell.h */,
+				37CE944C1E724B1E0066D33D /* VideoTableViewCell.m */,
+				37CE944E1E724D5E0066D33D /* videoPlayView.h */,
+				37CE944F1E724D5E0066D33D /* videoPlayView.m */,
 				37A848CF1E71316700CFF53A /* RequestTool.h */,
 				37A848D01E71316700CFF53A /* RequestTool.m */,
 				37A848D21E71354E00CFF53A /* VideoDataModal.h */,
@@ -120,8 +130,8 @@
 				37A848CC1E7130FF00CFF53A /* VideoModel.h */,
 				37A848CD1E7130FF00CFF53A /* VideoModel.m */,
 				37A848B91E70F8C200CFF53A /* PrefixHeader.pch */,
+				370E6AA61E77D1ED0013CA96 /* Assets.xcassets */,
 				37A848AB1E70F56600CFF53A /* Main.storyboard */,
-				37A848AE1E70F56700CFF53A /* Assets.xcassets */,
 				37A848B01E70F56700CFF53A /* LaunchScreen.storyboard */,
 				37A848B31E70F56800CFF53A /* Info.plist */,
 				37A848A21E70F56500CFF53A /* Supporting Files */,
@@ -208,7 +218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37A848B21E70F56700CFF53A /* LaunchScreen.storyboard in Resources */,
-				37A848AF1E70F56700CFF53A /* Assets.xcassets in Resources */,
+				370E6AA71E77D1ED0013CA96 /* Assets.xcassets in Resources */,
 				37A848AD1E70F56600CFF53A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,10 +283,12 @@
 				37A848D41E71354E00CFF53A /* VideoDataModal.m in Sources */,
 				37A848A71E70F56600CFF53A /* AppDelegate.m in Sources */,
 				37A848C21E70FBFF00CFF53A /* VideoBaseNavgationController.m in Sources */,
+				37CE94501E724D5E0066D33D /* videoPlayView.m in Sources */,
 				37A848BC1E70F9AD00CFF53A /* VideoViewController.m in Sources */,
 				37A848D11E71316700CFF53A /* RequestTool.m in Sources */,
 				37A848C81E712AEB00CFF53A /* PhotoViewController.m in Sources */,
 				37A848BF1E70FACC00CFF53A /* MainTabbarViewController.m in Sources */,
+				37CE944D1E724B1E0066D33D /* VideoTableViewCell.m in Sources */,
 				37A848A41E70F56500CFF53A /* main.m in Sources */,
 				37A848CE1E7130FF00CFF53A /* VideoModel.m in Sources */,
 			);
@@ -344,7 +356,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -385,7 +397,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -400,6 +412,7 @@
 				DEVELOPMENT_TEAM = CSVJ5Z326T;
 				GCC_PREFIX_HEADER = /Users/XingShanKeJi/Desktop/YHVideoList/YHVideoList/PrefixHeader.pch;
 				INFOPLIST_FILE = YHVideoList/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Joker.YHVideoList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -414,6 +427,7 @@
 				DEVELOPMENT_TEAM = CSVJ5Z326T;
 				GCC_PREFIX_HEADER = /Users/XingShanKeJi/Desktop/YHVideoList/YHVideoList/PrefixHeader.pch;
 				INFOPLIST_FILE = YHVideoList/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Joker.YHVideoList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
