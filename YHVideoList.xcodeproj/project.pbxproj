@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		370E6AA71E77D1ED0013CA96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 370E6AA61E77D1ED0013CA96 /* Assets.xcassets */; };
+		3741B2E91E80B9BC004F7DD8 /* YHVideoComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3741B2E81E80B9BC004F7DD8 /* YHVideoComment.m */; };
+		3741B2EC1E80BA59004F7DD8 /* YHVideoUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3741B2EB1E80BA59004F7DD8 /* YHVideoUser.m */; };
+		3741B2EF1E80F092004F7DD8 /* FullViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3741B2EE1E80F092004F7DD8 /* FullViewController.m */; };
+		3741B2F31E80F2AE004F7DD8 /* YHConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 3741B2F21E80F2AE004F7DD8 /* YHConst.m */; };
 		37A848A41E70F56500CFF53A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A848A31E70F56500CFF53A /* main.m */; };
 		37A848A71E70F56600CFF53A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A848A61E70F56600CFF53A /* AppDelegate.m */; };
 		37A848AD1E70F56600CFF53A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A848AB1E70F56600CFF53A /* Main.storyboard */; };
@@ -28,6 +32,14 @@
 
 /* Begin PBXFileReference section */
 		370E6AA61E77D1ED0013CA96 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3741B2E71E80B9BC004F7DD8 /* YHVideoComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHVideoComment.h; sourceTree = "<group>"; };
+		3741B2E81E80B9BC004F7DD8 /* YHVideoComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHVideoComment.m; sourceTree = "<group>"; };
+		3741B2EA1E80BA59004F7DD8 /* YHVideoUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHVideoUser.h; sourceTree = "<group>"; };
+		3741B2EB1E80BA59004F7DD8 /* YHVideoUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHVideoUser.m; sourceTree = "<group>"; };
+		3741B2ED1E80F092004F7DD8 /* FullViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullViewController.h; sourceTree = "<group>"; };
+		3741B2EE1E80F092004F7DD8 /* FullViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullViewController.m; sourceTree = "<group>"; };
+		3741B2F11E80F2AE004F7DD8 /* YHConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHConst.h; sourceTree = "<group>"; };
+		3741B2F21E80F2AE004F7DD8 /* YHConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHConst.m; sourceTree = "<group>"; };
 		37A8489F1E70F56500CFF53A /* YHVideoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YHVideoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A848A31E70F56500CFF53A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		37A848A51E70F56500CFF53A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -84,6 +96,35 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		3741B2F41E80F915004F7DD8 /* 视频短片 */ = {
+			isa = PBXGroup;
+			children = (
+				37A848BA1E70F9AD00CFF53A /* VideoViewController.h */,
+				37A848BB1E70F9AD00CFF53A /* VideoViewController.m */,
+				37CE944B1E724B1E0066D33D /* VideoTableViewCell.h */,
+				37CE944C1E724B1E0066D33D /* VideoTableViewCell.m */,
+				3741B2ED1E80F092004F7DD8 /* FullViewController.h */,
+				3741B2EE1E80F092004F7DD8 /* FullViewController.m */,
+				37CE944E1E724D5E0066D33D /* videoPlayView.h */,
+				37CE944F1E724D5E0066D33D /* videoPlayView.m */,
+				37A848CF1E71316700CFF53A /* RequestTool.h */,
+				37A848D01E71316700CFF53A /* RequestTool.m */,
+				37A848D21E71354E00CFF53A /* VideoDataModal.h */,
+				37A848D31E71354E00CFF53A /* VideoDataModal.m */,
+				3741B2F11E80F2AE004F7DD8 /* YHConst.h */,
+				3741B2F21E80F2AE004F7DD8 /* YHConst.m */,
+				37A848D51E7138C000CFF53A /* VideoDataTool.h */,
+				37A848D61E7138C000CFF53A /* VideoDataTool.m */,
+				37A848CC1E7130FF00CFF53A /* VideoModel.h */,
+				37A848CD1E7130FF00CFF53A /* VideoModel.m */,
+				3741B2E71E80B9BC004F7DD8 /* YHVideoComment.h */,
+				3741B2E81E80B9BC004F7DD8 /* YHVideoComment.m */,
+				3741B2EA1E80BA59004F7DD8 /* YHVideoUser.h */,
+				3741B2EB1E80BA59004F7DD8 /* YHVideoUser.m */,
+			);
+			name = "视频短片";
+			sourceTree = "<group>";
+		};
 		37A848961E70F56500CFF53A = {
 			isa = PBXGroup;
 			children = (
@@ -115,20 +156,7 @@
 				37A848CA1E712B0400CFF53A /* CentreViewController.m */,
 				37A848C61E712AEB00CFF53A /* PhotoViewController.h */,
 				37A848C71E712AEB00CFF53A /* PhotoViewController.m */,
-				37A848BA1E70F9AD00CFF53A /* VideoViewController.h */,
-				37A848BB1E70F9AD00CFF53A /* VideoViewController.m */,
-				37CE944B1E724B1E0066D33D /* VideoTableViewCell.h */,
-				37CE944C1E724B1E0066D33D /* VideoTableViewCell.m */,
-				37CE944E1E724D5E0066D33D /* videoPlayView.h */,
-				37CE944F1E724D5E0066D33D /* videoPlayView.m */,
-				37A848CF1E71316700CFF53A /* RequestTool.h */,
-				37A848D01E71316700CFF53A /* RequestTool.m */,
-				37A848D21E71354E00CFF53A /* VideoDataModal.h */,
-				37A848D31E71354E00CFF53A /* VideoDataModal.m */,
-				37A848D51E7138C000CFF53A /* VideoDataTool.h */,
-				37A848D61E7138C000CFF53A /* VideoDataTool.m */,
-				37A848CC1E7130FF00CFF53A /* VideoModel.h */,
-				37A848CD1E7130FF00CFF53A /* VideoModel.m */,
+				3741B2F41E80F915004F7DD8 /* 视频短片 */,
 				37A848B91E70F8C200CFF53A /* PrefixHeader.pch */,
 				370E6AA61E77D1ED0013CA96 /* Assets.xcassets */,
 				37A848AB1E70F56600CFF53A /* Main.storyboard */,
@@ -279,18 +307,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				37A848D71E7138C000CFF53A /* VideoDataTool.m in Sources */,
+				3741B2EF1E80F092004F7DD8 /* FullViewController.m in Sources */,
 				37A848CB1E712B0400CFF53A /* CentreViewController.m in Sources */,
 				37A848D41E71354E00CFF53A /* VideoDataModal.m in Sources */,
 				37A848A71E70F56600CFF53A /* AppDelegate.m in Sources */,
 				37A848C21E70FBFF00CFF53A /* VideoBaseNavgationController.m in Sources */,
 				37CE94501E724D5E0066D33D /* videoPlayView.m in Sources */,
+				3741B2E91E80B9BC004F7DD8 /* YHVideoComment.m in Sources */,
 				37A848BC1E70F9AD00CFF53A /* VideoViewController.m in Sources */,
+				3741B2EC1E80BA59004F7DD8 /* YHVideoUser.m in Sources */,
 				37A848D11E71316700CFF53A /* RequestTool.m in Sources */,
 				37A848C81E712AEB00CFF53A /* PhotoViewController.m in Sources */,
 				37A848BF1E70FACC00CFF53A /* MainTabbarViewController.m in Sources */,
 				37CE944D1E724B1E0066D33D /* VideoTableViewCell.m in Sources */,
 				37A848A41E70F56500CFF53A /* main.m in Sources */,
 				37A848CE1E7130FF00CFF53A /* VideoModel.m in Sources */,
+				3741B2F31E80F2AE004F7DD8 /* YHConst.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

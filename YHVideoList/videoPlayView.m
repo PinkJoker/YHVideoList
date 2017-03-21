@@ -115,7 +115,7 @@
         self.quanPingBtn.selected = !self.quanPingBtn.selected;
         //切换全屏代理
         if (self.subjectDelegate) {
-            [self.subjectDelegate sendNext:@"是否全屏"];
+            [self.subjectDelegate sendNext:@"1"];
         }
     }];
     //播放进度

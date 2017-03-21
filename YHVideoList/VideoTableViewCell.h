@@ -24,10 +24,12 @@
 
 @interface VideoTableViewCell : UITableViewCell
 
-+(instancetype)cell;
+//+(instancetype)cell;
 @property(nonatomic, strong)VideoDataModal *video;
 @property(nonatomic, assign)id<VideoTableViewCellDelegate>delegate;
 @property(nonatomic, strong)NSIndexPath *indexPath;
 @property(nonatomic, strong)videoPlayView *playView;
+
+
 
 @end

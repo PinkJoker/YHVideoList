@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class FullViewController;
 @interface VideoViewController : UIViewController
-
+- (FullViewController *)fullVc;
 @end

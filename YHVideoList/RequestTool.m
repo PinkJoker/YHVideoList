@@ -24,24 +24,14 @@
     [manager GET:@"http://api.budejie.com/api/api_open.php" parameters:dic progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        [subscriber sendNext:responseObject];
-//        [subscriber sendCompleted];
         if (success) {
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-       // [subscriber sendNext:error];
         if (fail) {
             fail(error);
         }
     }];
-
-//    self.requestCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal *(id input) {
-//        RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-//                      return nil;
-//        }];
-//        return signal;
-//    }];
 }
 
 @end

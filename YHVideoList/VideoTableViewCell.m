@@ -7,9 +7,9 @@
 //
 
 #import "VideoTableViewCell.h"
-
-
-@interface VideoTableViewCell ()
+#import "VideoDataModal.h"
+#import "YHVideoComment.h"
+@interface VideoTableViewCell ()<SDWebImageManagerDelegate>
 @property (strong, nonatomic)  UIImageView *headerImageView;
 @property (strong, nonatomic)  UILabel *nameLabel;
 @property (strong, nonatomic)  UILabel *createdTimeLabel;
@@ -43,7 +43,17 @@
 {
     self = [super init];
     if (self) {
-        [self creatView];
+       
+    }
+    return self;
+}
+
+
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+         [self creatView];
     }
     return self;
 }
@@ -51,18 +61,26 @@
 -(void)creatView
 {
     
-    UIView *bottomView = [[UIView alloc]init];
-    [self.contentView addSubview:bottomView];
-    
+
     
     self.headerImageView = [[UIImageView alloc]init];
-    [self.contentView addSubview:self.headerImageView];
     self.nameLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.nameLabel];
     self.createdTimeLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.createdTimeLabel];
     self.AddFriendsButton = [[UIButton alloc]init];
-    [self.contentView addSubview:self.AddFriendsButton];
+    self.contentLabel = [[UILabel alloc]init];
+    self.vipImageView = [[UIImageView alloc]init];
+    self.topCommentTopLabel = [[UILabel alloc]init];
+    self.topCommentLabel = [[UILabel alloc]init];
+    self.VideoContianerView = [[UIView alloc]init];
+    self.videoImageView = [[UIImageView alloc]init];
+    self.timelabel = [[UILabel alloc]init];
+    self.playCountLabel = [[UILabel alloc]init];
+    UIButton *playBtn = [[UIButton alloc]init];
+    UIView *bottomView = [[UIView alloc]init];
+    NSArray *views = @[self.headerImageView,self.nameLabel,self.createdTimeLabel,self,_VideoContianerView,bottomView];
+    [self.contentView sd_addSubviews:views];
+    
+    bottomView.backgroundColor = [UIColor yellowColor];
     self.loveButton = [[UIButton alloc]init];
     [bottomView addSubview:self.loveButton];
     self.hatebutton = [[UIButton alloc]init];
@@ -71,91 +89,183 @@
     [bottomView addSubview:self.repostButton];
     self.commentButton = [[UIButton alloc]init];
     [bottomView addSubview:self.commentButton];
-    self.contentLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.contentLabel];
-    self.vipImageView = [[UIImageView alloc]init];
-    [self.contentView addSubview:self.vipImageView];
-    self.topCommentTopLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.topCommentTopLabel];
+    
+    
+    self.headerImageView.sd_layout
+    .leftSpaceToView(self.contentView,20)
+    .topSpaceToView(self.contentView,20)
+    .heightIs(60)
+    .widthIs(60);
+    self.headerImageView.layer.cornerRadius = 30;
+    self.headerImageView.clipsToBounds = YES;
+    
+    self.nameLabel.sd_layout
+    .leftSpaceToView(self.headerImageView,10)
+    .topSpaceToView(self.headerImageView,5)
+    .heightIs(25);
+    [self.nameLabel setSingleLineAutoResizeWithMaxWidth:200];
+    self.createdTimeLabel.sd_layout
+    .leftEqualToView(self.nameLabel)
+    .topSpaceToView(self.nameLabel,20)
+    .heightIs(20);
+    [self.createdTimeLabel setSingleLineAutoResizeWithMaxWidth:200];
+    
+    self.contentLabel.sd_layout
+    .leftSpaceToView(self.contentView,30)
+    .topSpaceToView(self.headerImageView,15)
+    .rightSpaceToView(self.contentView,30)
+    .autoHeightRatio(0);
+    self.VideoContianerView.sd_layout
+    .topSpaceToView(_contentLabel,10)
+    .leftEqualToView(self.contentView)
+    .rightEqualToView(self.contentView)
+    .autoHeightRatio(0);
+    
+    self.videoImageView.sd_layout
+    .topEqualToView(self.VideoContianerView)
+    .leftEqualToView(self.VideoContianerView)
+    .rightEqualToView(self.VideoContianerView)
+    .autoHeightRatio(0);
+    
+    self.playCountLabel.sd_layout
+    .leftEqualToView(self.videoImageView)
+    .bottomEqualToView(self.videoImageView)
+    .heightIs(20);
+    
+    playBtn.sd_layout
+    .centerXEqualToView(self.videoImageView)
+    .centerYEqualToView(self.videoImageView)
+    .heightIs(50)
+    .widthIs(50);
+    self.timelabel.sd_layout
+    .rightEqualToView(self.videoImageView)
+    .bottomEqualToView(self.videoImageView)
+    .heightIs(0);
+    [self.timelabel setSingleLineAutoResizeWithMaxWidth:200];
+    
+    bottomView.sd_layout
+    .leftEqualToView(self.contentView)
+    .rightEqualToView(self.contentView)
+    .heightIs(44);
+
+    playBtn.backgroundColor = [UIColor cyanColor];
+    
+    
+    
+    [self setupAutoHeightWithBottomView:bottomView bottomMargin:10];
+    
+    
+    //播放.
+    [[playBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+        if ([self.delegate respondsToSelector:@selector(clickVideoButton:)]) {
+            [self.delegate clickVideoButton:self.indexPath];
+        }
+    }];
+    //更多按钮
+    [[self.AddFriendsButton rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+        if ([self.delegate respondsToSelector:@selector(clickMoreButton:)]) {
+            [self.delegate clickMoreButton:self.video];
+        }
+    }];
+    //喜欢
+    [[self.loveButton rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(UIButton *button) {
+        button.selected = !button.selected;
+    }];
+    //不喜欢
+    [[self.hatebutton rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(UIButton *button) {
+        button.selected = !button.selected;
+    }];
+    [[self.commentButton rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+        if ([self.delegate respondsToSelector:@selector(clickCommentButton:)]) {
+            [self.delegate clickCommentButton:self.indexPath];
+        }
+    }];
+    
+    [self setProperty];
+    
+}
+
+//-(void)setFrame:(CGRect)frame
+//{
+//    static CGFloat margin = 10;
+//    frame.size.width = [UIScreen mainScreen].bounds.size.width;
+//    frame.size.height = self.video.cellHeight - margin;
+//    [super setFrame:frame];
+//}
 
 
-    self.topCommentLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.topCommentLabel];
-    self.VideoContianerView = [[UIView alloc]init];
-    [self.contentView addSubview:self.VideoContianerView];
+
+
+
+-(void)setProperty
+{
     
-    self.videoImageView = [[UIImageView alloc]init];
-    [self.VideoContianerView addSubview:self.videoImageView];
-    self.timelabel = [[UILabel alloc]init];
-    [self.VideoContianerView addSubview:self.timelabel];
-    self.playCountLabel = [[UILabel alloc]init];
-    [self.VideoContianerView addSubview:self.playCountLabel];
-    UIButton *playBtn = [[UIButton alloc]init];
-    [self.VideoContianerView addSubview:playBtn];
-    
-  [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-      make.top.mas_equalTo(20);
-      make.left.mas_equalTo(15);
-      make.width.height.mas_equalTo(kWidth *0.15);
-  }];
-  [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-      make.top.mas_equalTo(self.headerImageView.mas_top);
-      make.left.mas_equalTo(self.headerImageView.mas_right).offset(10);
-  }];
-   [self.createdTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-       make.left.mas_equalTo(self.nameLabel.mas_left);
-       make.top.mas_equalTo(self.nameLabel.mas_bottom);
-   }];
-    [self.AddFriendsButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-10);
-        make.top.mas_equalTo(20);
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(60);
-    }];
-    
-    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(0);
-        make.bottom.mas_equalTo(0);
-        make.height.mas_equalTo(44);
-    }];
-    [self.loveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
-        make.height.mas_equalTo(44);
-        make.width.mas_equalTo(kWidth *0.25);
-        make.bottom.mas_equalTo(0);
-    }];
-    [self.hatebutton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kWidth *0.25);
-        make.height.mas_equalTo(44);
-        make.width.mas_equalTo(kWidth *0.25);
-        make.bottom.mas_equalTo(0);
-    }];
-    [self.repostButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kWidth *0.5);
-        make.height.mas_equalTo(44);
-        make.width.mas_equalTo(kWidth *0.25);
-        make.bottom.mas_equalTo(0);
-    }];
-    [self.commentButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kWidth *0.75);
-        make.height.mas_equalTo(44);
-        make.width.mas_equalTo(kWidth *0.25);
-        make.bottom.mas_equalTo(0);
-    }];
-    
-    [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.headerImageView.mas_left);
-        make.top.mas_equalTo(self.headerImageView.mas_bottom).offset(10);
-    }];
-    
-    [self.VideoContianerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contentLabel.mas_bottom).offset(5);
-        make.left.mas_equalTo(0);
-        make.right.mas_equalTo(0);
-        make.height.mas_equalTo(kWidth *0.35);
-    }];
+    self.nameLabel.textColor = [UIColor blueColor];
+    UIImageView *imageView = [[UIImageView alloc]init];
+    imageView.image = [UIImage imageNamed:@"mainCellBackground"];
+    self.backgroundView = imageView;
+    [SDWebImageManager sharedManager].delegate = self;
     
     
+    
+}
+
+
+-(void)setVideo:(VideoDataModal *)video
+{
+    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:video.profile_image] placeholderImage:[UIImage imageNamed:@"defaultUserIcon"]  options:SDWebImageTransformAnimatedImage];
+    self.nameLabel.text = video.screen_name;
+    self.createdTimeLabel.text = video.created_at;
+    self.contentLabel.text = video.text;
+    self.vipImageView.hidden = !video.isSina_v;
+    NSInteger count = video.playcount.integerValue;
+    if (count>10000) {
+        self.playCountLabel.text = [NSString stringWithFormat:@"%ld万播放",count/10000];
+    } else {
+        self.playCountLabel.text = [NSString stringWithFormat:@"%ld播放",(long)count];
+    }
+    NSInteger time = video.videotime.integerValue;
+    self.timelabel.text = [NSString stringWithFormat:@"%02ld%02ld",time/60,time%60];
+    [self.videoImageView sd_setImageWithURL:[NSURL URLWithString:video.image1]];
+    [self setupButton:self.loveButton WithTittle:video.love];
+    [self setupButton:self.hatebutton WithTittle:video.cai];
+    [self setupButton:self.repostButton WithTittle:video.repost];
+    [self setupButton:self.commentButton WithTittle:video.comment];
+    YHVideoComment *comment = video.top_cmt;
+    if (comment) {
+        self.topCommentLabel.text = [NSString stringWithFormat:@"%@:%@",comment.user.username,comment.content];
+        self.topCommentTopLabel.text = @"最热评论";
+    }else{
+        self.topCommentLabel.text = @"";
+        self.topCommentTopLabel.text = @"";
+    }
+    
+}
+-(UIImage *)imageManager:(SDWebImageManager *)imageManager transformDownloadedImage:(UIImage *)image withURL:(NSURL *)imageURL
+{
+    //
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0.0);
+    //获得上下文
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    //添加一个
+    CGRect rect = CGRectMake(0, 0, image.size.height, image.size.height);
+    CGContextAddEllipseInRect(context, rect);
+    //裁剪
+    CGContextClip(context);
+    //将图片画上去
+    [image drawInRect:rect];
+    UIImage *resultsImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resultsImage;
+}
+
+- (void)setupButton:(UIButton *)button WithTittle:(NSString *)tittle {
+    double number = tittle.doubleValue;
+    if (number > 10000) {
+        [button setTitle:[NSString stringWithFormat:@"%.1f万",number/10000] forState:UIControlStateNormal];
+        return;
+    }
+    [button setTitle:tittle forState:UIControlStateNormal];
     
 }
 

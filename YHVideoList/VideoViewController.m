@@ -11,7 +11,10 @@
 #import "VideoDataModal.h"
 #import "RequestTool.h"
 #import "VideoDataTool.h"
-@interface VideoViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "VideoTableViewCell.h"
+#import "videoPlayView.h"
+#import "FullViewController.h"
+@interface VideoViewController ()<UITableViewDataSource,UITableViewDelegate,VideoTableViewCellDelegate>
 @property(nonatomic, strong)UITableView *videoTableView;
 @property(nonatomic, strong)NSMutableArray *videoArray;
 @property(nonatomic, assign)NSInteger currentPage;
@@ -19,6 +22,12 @@
 @property(nonatomic, strong)NSDictionary *parameters;
 @property(nonatomic, copy)NSString *currentSkinModel;
 @property(nonatomic, assign)BOOL isFullScreenPlaying;
+
+
+
+@property (nonatomic, weak) videoPlayView *playView;
+@property (nonatomic, strong) FullViewController *fullVc;
+@property (nonatomic, weak) VideoTableViewCell *currentSelectedCell;
 @end
 static NSString * const VideoCell = @"VideoCell";
 @implementation VideoViewController
@@ -28,7 +37,9 @@ static NSString * const VideoCell = @"VideoCell";
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
+    [self setbase];
+    [self setTable];
+    [self loadData];
 }
 -(void)setbase
 {
@@ -41,14 +52,41 @@ static NSString * const VideoCell = @"VideoCell";
 {
     self.videoTableView = [[UITableView alloc]init];
     [self.view addSubview:self.videoTableView];
-    self.videoTableView.sd_layout
-    .topEqualToView(self.view).leftEqualToView(self.view).rightEqualToView(self.view).heightRatioToView(self.view,1);
+    [self.videoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(64);
+        make.left.right.mas_equalTo(0);
+        make.bottom.mas_equalTo(-49);
+    }];
     self.videoTableView.dataSource = self;
     self.videoTableView.delegate = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
-//    self.videoTableView.contentInset = UIEdgeInsetsMake(C, <#CGFloat left#>, <#CGFloat bottom#>, <#CGFloat right#>)
+//    self.videoTableView.contentInset = UIEdgeInsetsMake(C, <#CGFloat left#>, <#CGFloat bottom#>, <#CGFloat right#>)\
+    
+    
+    videoPlayView *view = [[videoPlayView alloc]init];
+    [view.subjectDelegate subscribeNext:^(id x) {
+        if ([x isEqualToString:@"1"]) {
+            self.isFullScreenPlaying = YES;
+            [self presentViewController:self.fullVc animated:YES completion:^{
+                self.playView.frame = self.fullVc.view.bounds;
+                [self.fullVc.view addSubview:self.playView];
+            }];
+        }
+    }];
+    
     
 }
+
+#pragma mark - 懒加载代码
+- (FullViewController *)fullVc
+{
+    if (_fullVc == nil) {
+        self.fullVc = [[FullViewController alloc] init];
+    }
+    
+    return _fullVc;
+}
+
 
 -(void)loadData
 {
@@ -73,16 +111,24 @@ static NSString * const VideoCell = @"VideoCell";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[VideoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
+    cell.video = self.videoArray[indexPath.row];
+    cell.delegate = self;
+    cell.indexPath = indexPath;
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    VideoDataModal *video = self.videoArray[indexPath.row];
+    
+//    VideoTableViewCell *cell
+    CGFloat height = [tableView cellHeightForIndexPath:indexPath cellContentViewWidth:kWidth tableView:tableView];
+  //  CGFloat height1 = [tableView cellHeightForIndexPath:indexPath model:video keyPath:@"video" cellClass:[VideoDataModal class] contentViewWidth:kWidth];
+    return height;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -95,7 +141,16 @@ static NSString * const VideoCell = @"VideoCell";
 }
 
 
-
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.playView.superview && self.isFullScreenPlaying == NO) {
+        NSIndexPath *indexPath = [self.videoTableView indexPathForCell:self.currentSelectedCell];
+        if (![self.videoTableView.indexPathsForVisibleRows containsObject:indexPath]) {//播放video的cell离开屏幕
+            
+            [self.playView resetPlayView];
+        }
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
