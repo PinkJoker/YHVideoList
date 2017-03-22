@@ -176,37 +176,17 @@
     [self setProperty];
     
 }
-
-//-(void)setFrame:(CGRect)frame
-//{
-//    static CGFloat margin = 10;
-//    frame.size.width = [UIScreen mainScreen].bounds.size.width;
-//    frame.size.height = self.video.cellHeight - margin;
-//    [super setFrame:frame];
-//}
-
-
-
-
-
 -(void)setProperty
 {
-    
     self.nameLabel.textColor = [UIColor blueColor];
-//    UIImageView *imageView = [[UIImageView alloc]init];
-//    imageView.image = [UIImage imageNamed:@"mainCellBackground"];
-//    self.backgroundView = imageView;
-  //  [SDWebImageManager sharedManager].delegate = self;
-    
-    
-    
+    [SDWebImageManager sharedManager].delegate = self;
 }
 
 
 -(void)setVideo:(VideoDataModal *)video
 {
     _video = video;
-    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:video.profile_image] placeholderImage:[UIImage imageNamed:@"defaultUserIcon"]  options:SDWebImageTransformAnimatedImage];
+    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:video.profile_image] placeholderImage:[UIImage imageNamed:@"defaultUserIcon"]  ];
     self.nameLabel.text = video.screen_name;
     self.createdTimeLabel.text = video.created_at;
     self.contentLabel.text = video.text;
@@ -219,22 +199,20 @@
     }
     NSInteger time = video.videotime.integerValue;
     self.timelabel.text = [NSString stringWithFormat:@"%02ld%02ld",time/60,time%60];
-   
 
-  
-    
     [self setupButton:self.loveButton WithTittle:video.love];
     [self setupButton:self.hatebutton WithTittle:video.cai];
     [self setupButton:self.repostButton WithTittle:video.repost];
     [self setupButton:self.commentButton WithTittle:video.comment];
     
     self.contentLabel.sd_layout.autoHeightRatio(0);
-    CGFloat height = video.height *kWidth /video.width;
+    CGFloat height = video.height /video.width;
+    CGFloat trueHeight  = height *kWidth;
     self.videoImageView.sd_layout
-    .heightIs(height)
+    .heightIs(trueHeight)
     .widthIs(kWidth);
     self.VideoContianerView.sd_layout
-    .heightIs(height)
+    .heightIs(trueHeight)
     .widthIs(kWidth);
     bottomView.sd_layout
     .topSpaceToView(self.VideoContianerView,10)
@@ -242,7 +220,6 @@
     .rightEqualToView(self.contentView)
     .heightIs(44);
     NSLog(@"%f,%f",self.videoImageView.frame.size.width,self.videoImageView.frame.size.height);
-  //  NSLog(@"%f,%f",self.videoImageView.frame.size.height,self.videoImageView.frame.size.width);
       [self setupAutoHeightWithBottomView:bottomView bottomMargin:10];
 //    YHVideoComment *comment = video.top_cmt;
 //    if (comment) {
@@ -252,26 +229,26 @@
 //        self.topCommentLabel.text = @"";
 //        self.topCommentTopLabel.text = @"";
 //    }
-//     [self.videoImageView.image sd_setImageWithURL:[NSURL URLWithString:video.image0]];
+
     [self.videoImageView sd_setImageWithURL:[NSURL URLWithString:video.image1] placeholderImage:nil];
 }
-//-(UIImage *)imageManager:(SDWebImageManager *)imageManager transformDownloadedImage:(UIImage *)image withURL:(NSURL *)imageURL
-//{
-//    //
-//    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0.0);
-//    //获得上下文
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//    //添加一个
-//    CGRect rect = CGRectMake(0, 0, image.size.height, image.size.height);
-//    CGContextAddEllipseInRect(context, rect);
-//    //裁剪
-//    CGContextClip(context);
-//    //将图片画上去
-//    [image drawInRect:rect];
-//    UIImage *resultsImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    return resultsImage;
-//}
+-(UIImage *)imageManager:(SDWebImageManager *)imageManager transformDownloadedImage:(UIImage *)image withURL:(NSURL *)imageURL
+{
+    //
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0.0);
+    //获得上下文
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    //添加一个
+    CGRect rect = CGRectMake(0, 0, image.size.height, image.size.height);
+    CGContextAddEllipseInRect(context, rect);
+    //裁剪
+    CGContextClip(context);
+    //将图片画上去
+    [image drawInRect:rect];
+    UIImage *resultsImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resultsImage;
+}
 
 - (void)setupButton:(UIButton *)button WithTittle:(NSString *)tittle {
     double number = tittle.doubleValue;
