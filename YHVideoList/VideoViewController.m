@@ -100,8 +100,7 @@ static NSString * const VideoCell = @"VideoCell";
         self.maxtime = maxtime;
         self.videoArray = [array mutableCopy];
         [self.videoTableView reloadData];
-        [self.videoTableView.mj_header endRefreshing];
-    } failure:^(NSError *error) {
+        } failure:^(NSError *error) {
         
         
     }];
@@ -111,9 +110,9 @@ static NSString * const VideoCell = @"VideoCell";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:VideoCell];
     if (!cell) {
-        cell = [[VideoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[VideoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:VideoCell];
     }
     cell.video = self.videoArray[indexPath.row];
     cell.delegate = self;
@@ -123,12 +122,9 @@ static NSString * const VideoCell = @"VideoCell";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    VideoDataModal *video = self.videoArray[indexPath.row];
-    
-//    VideoTableViewCell *cell
-    CGFloat height = [tableView cellHeightForIndexPath:indexPath cellContentViewWidth:kWidth tableView:tableView];
-  //  CGFloat height1 = [tableView cellHeightForIndexPath:indexPath model:video keyPath:@"video" cellClass:[VideoDataModal class] contentViewWidth:kWidth];
-    return height;
+    id video = self.videoArray[indexPath.row];
+   CGFloat height1 = [tableView cellHeightForIndexPath:indexPath model:video keyPath:@"Video" cellClass:[VideoTableViewCell class] contentViewWidth:kWidth];
+    return height1;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -141,16 +137,15 @@ static NSString * const VideoCell = @"VideoCell";
 }
 
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (self.playView.superview && self.isFullScreenPlaying == NO) {
-        NSIndexPath *indexPath = [self.videoTableView indexPathForCell:self.currentSelectedCell];
-        if (![self.videoTableView.indexPathsForVisibleRows containsObject:indexPath]) {//播放video的cell离开屏幕
-            
-            [self.playView resetPlayView];
-        }
-    }
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    if (self.playView.superview && self.isFullScreenPlaying == NO) {
+//        NSIndexPath *indexPath = [self.videoTableView indexPathForCell:self.currentSelectedCell];
+//        if (![self.videoTableView.indexPathsForVisibleRows containsObject:indexPath]) {//播放video的cell离开屏幕
+//            [self.playView resetPlayView];
+//        }
+//    }
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

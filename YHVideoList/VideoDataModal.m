@@ -17,38 +17,38 @@
              };
 }
 
--(CGFloat)cellHeight {
-    if (!_cellHeight) {
-        
-        CGSize maxSize = CGSizeMake([UIScreen mainScreen].bounds.size.width - 2*cellMargin, MAXFLOAT);
-        CGFloat TextHeight = [self.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
-        
-        _cellHeight = cellMargin+cellTextY + TextHeight;
-        
-        //videoImageview的高度
-        CGFloat videoX = 0;
-        CGFloat videoY = cellTextY + TextHeight + cellMargin;
-        CGFloat videoWidth = [UIScreen mainScreen].bounds.size.width;
-        
-        CGFloat videoHeight = self.height * videoWidth/self.width;
-        self.videoFrame = CGRectMake(videoX, videoY, videoWidth, videoHeight);
-        _cellHeight += videoHeight + cellMargin;
-        
-        //        热评的高度
-        YHVideoComment *cmt = self.top_cmt;
-        if (cmt) {//最热评论存在
-            NSString *content = [NSString stringWithFormat:@"%@ : %@", cmt.user.username, cmt.content];
-            CGFloat topCommentHeight = [content boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13 ]} context:nil].size.height;
-            
-            _cellHeight += 0.5*cellMargin + cellTopCommentTopLabelHeight+topCommentHeight + 0.5*cellMargin + cellBottomBarHeight;
-        } else {
-            _cellHeight += 0.5*cellMargin+ 0.5*cellMargin +cellBottomBarHeight;
-        }
-        
-    }
-    
-    return _cellHeight;
-}
+//-(CGFloat)cellHeight {
+//    if (!_cellHeight) {
+//        
+//        CGSize maxSize = CGSizeMake([UIScreen mainScreen].bounds.size.width - 2*cellMargin, MAXFLOAT);
+//        CGFloat TextHeight = [self.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
+//        
+//        _cellHeight = cellMargin+cellTextY + TextHeight;
+//        
+//        //videoImageview的高度
+//        CGFloat videoX = 0;
+//        CGFloat videoY = cellTextY + TextHeight + cellMargin;
+//        CGFloat videoWidth = [UIScreen mainScreen].bounds.size.width;
+//        
+//        CGFloat videoHeight = self.height * videoWidth/self.width;
+//        self.videoFrame = CGRectMake(videoX, videoY, videoWidth, videoHeight);
+//        _cellHeight += videoHeight + cellMargin;
+//        
+//        //        热评的高度
+//        YHVideoComment *cmt = self.top_cmt;
+//        if (cmt) {//最热评论存在
+//            NSString *content = [NSString stringWithFormat:@"%@ : %@", cmt.user.username, cmt.content];
+//            CGFloat topCommentHeight = [content boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13 ]} context:nil].size.height;
+//            
+//            _cellHeight += 0.5*cellMargin + cellTopCommentTopLabelHeight+topCommentHeight + 0.5*cellMargin + cellBottomBarHeight;
+//        } else {
+//            _cellHeight += 0.5*cellMargin+ 0.5*cellMargin +cellBottomBarHeight;
+//        }
+//        
+//    }
+//    
+//    return _cellHeight;
+//}
 -(void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.ID forKey:@"ID"];
     [aCoder encodeObject:self.profile_image forKey:@"profile_image"];

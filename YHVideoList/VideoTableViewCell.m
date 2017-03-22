@@ -10,6 +10,9 @@
 #import "VideoDataModal.h"
 #import "YHVideoComment.h"
 @interface VideoTableViewCell ()<SDWebImageManagerDelegate>
+{
+    UIView *bottomView;
+}
 @property (strong, nonatomic)  UIImageView *headerImageView;
 @property (strong, nonatomic)  UILabel *nameLabel;
 @property (strong, nonatomic)  UILabel *createdTimeLabel;
@@ -60,9 +63,6 @@
 
 -(void)creatView
 {
-    
-
-    
     self.headerImageView = [[UIImageView alloc]init];
     self.nameLabel = [[UILabel alloc]init];
     self.createdTimeLabel = [[UILabel alloc]init];
@@ -72,15 +72,20 @@
     self.topCommentTopLabel = [[UILabel alloc]init];
     self.topCommentLabel = [[UILabel alloc]init];
     self.VideoContianerView = [[UIView alloc]init];
+      UIButton *playBtn = [[UIButton alloc]init];
     self.videoImageView = [[UIImageView alloc]init];
     self.timelabel = [[UILabel alloc]init];
     self.playCountLabel = [[UILabel alloc]init];
-    UIButton *playBtn = [[UIButton alloc]init];
-    UIView *bottomView = [[UIView alloc]init];
-    NSArray *views = @[self.headerImageView,self.nameLabel,self.createdTimeLabel,self,_VideoContianerView,bottomView];
+  
+   bottomView = [[UIView alloc]init];
+    NSArray *views = @[self.headerImageView,self.nameLabel,self.createdTimeLabel,self.contentLabel,self.VideoContianerView,bottomView];
     [self.contentView sd_addSubviews:views];
-    
-    bottomView.backgroundColor = [UIColor yellowColor];
+    [self.VideoContianerView addSubview:self.videoImageView];
+    [self.VideoContianerView addSubview:playBtn];
+
+    [self.VideoContianerView addSubview:self.timelabel];
+    [self.VideoContianerView addSubview:self.playCountLabel];
+   // bottomView.backgroundColor = [UIColor yellowColor];
     self.loveButton = [[UIButton alloc]init];
     [bottomView addSubview:self.loveButton];
     self.hatebutton = [[UIButton alloc]init];
@@ -96,45 +101,38 @@
     .topSpaceToView(self.contentView,20)
     .heightIs(60)
     .widthIs(60);
-    self.headerImageView.layer.cornerRadius = 30;
-    self.headerImageView.clipsToBounds = YES;
-    
     self.nameLabel.sd_layout
     .leftSpaceToView(self.headerImageView,10)
-    .topSpaceToView(self.headerImageView,5)
-    .heightIs(25);
+    .topSpaceToView(self.contentView,20)
+    .heightIs(20);
+    self.nameLabel.backgroundColor = [UIColor yellowColor];
     [self.nameLabel setSingleLineAutoResizeWithMaxWidth:200];
     self.createdTimeLabel.sd_layout
-    .leftEqualToView(self.nameLabel)
-    .topSpaceToView(self.nameLabel,20)
+    .leftSpaceToView(self.headerImageView,10).topSpaceToView(self.nameLabel,10)
     .heightIs(20);
     [self.createdTimeLabel setSingleLineAutoResizeWithMaxWidth:200];
     
     self.contentLabel.sd_layout
     .leftSpaceToView(self.contentView,30)
-    .topSpaceToView(self.headerImageView,15)
-    .rightSpaceToView(self.contentView,30)
-    .autoHeightRatio(0);
+    .topSpaceToView(self.headerImageView,10)
+    .rightSpaceToView(self.contentView,30);
     self.VideoContianerView.sd_layout
     .topSpaceToView(_contentLabel,10)
-    .leftEqualToView(self.contentView)
-    .rightEqualToView(self.contentView)
-    .autoHeightRatio(0);
+    .leftSpaceToView(self.contentView,0);
     
     self.videoImageView.sd_layout
-    .topEqualToView(self.VideoContianerView)
-    .leftEqualToView(self.VideoContianerView)
-    .rightEqualToView(self.VideoContianerView)
-    .autoHeightRatio(0);
-    
+    .topEqualToView(self.VideoContianerView).leftSpaceToView(self.VideoContianerView,0)
+    ;
     self.playCountLabel.sd_layout
     .leftEqualToView(self.videoImageView)
     .bottomEqualToView(self.videoImageView)
     .heightIs(20);
     
+    
+    
     playBtn.sd_layout
-    .centerXEqualToView(self.videoImageView)
-    .centerYEqualToView(self.videoImageView)
+    .centerXEqualToView(self.VideoContianerView)
+    .centerYEqualToView(self.VideoContianerView)
     .heightIs(50)
     .widthIs(50);
     self.timelabel.sd_layout
@@ -142,18 +140,12 @@
     .bottomEqualToView(self.videoImageView)
     .heightIs(0);
     [self.timelabel setSingleLineAutoResizeWithMaxWidth:200];
-    
-    bottomView.sd_layout
-    .leftEqualToView(self.contentView)
-    .rightEqualToView(self.contentView)
-    .heightIs(44);
 
+    [playBtn setBackgroundImage:[UIImage imageNamed:@"video-play"] forState:UIControlStateNormal];
+    self.videoImageView.backgroundColor = [UIColor yellowColor];
+    self.VideoContianerView.backgroundColor = [UIColor blueColor];
+    bottomView.backgroundColor = [UIColor greenColor];
     playBtn.backgroundColor = [UIColor cyanColor];
-    
-    
-    
-    [self setupAutoHeightWithBottomView:bottomView bottomMargin:10];
-    
     
     //播放.
     [[playBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
@@ -201,10 +193,10 @@
 {
     
     self.nameLabel.textColor = [UIColor blueColor];
-    UIImageView *imageView = [[UIImageView alloc]init];
-    imageView.image = [UIImage imageNamed:@"mainCellBackground"];
-    self.backgroundView = imageView;
-    [SDWebImageManager sharedManager].delegate = self;
+//    UIImageView *imageView = [[UIImageView alloc]init];
+//    imageView.image = [UIImage imageNamed:@"mainCellBackground"];
+//    self.backgroundView = imageView;
+  //  [SDWebImageManager sharedManager].delegate = self;
     
     
     
@@ -213,6 +205,7 @@
 
 -(void)setVideo:(VideoDataModal *)video
 {
+    _video = video;
     [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:video.profile_image] placeholderImage:[UIImage imageNamed:@"defaultUserIcon"]  options:SDWebImageTransformAnimatedImage];
     self.nameLabel.text = video.screen_name;
     self.createdTimeLabel.text = video.created_at;
@@ -226,38 +219,59 @@
     }
     NSInteger time = video.videotime.integerValue;
     self.timelabel.text = [NSString stringWithFormat:@"%02ld%02ld",time/60,time%60];
-    [self.videoImageView sd_setImageWithURL:[NSURL URLWithString:video.image1]];
+   
+
+  
+    
     [self setupButton:self.loveButton WithTittle:video.love];
     [self setupButton:self.hatebutton WithTittle:video.cai];
     [self setupButton:self.repostButton WithTittle:video.repost];
     [self setupButton:self.commentButton WithTittle:video.comment];
-    YHVideoComment *comment = video.top_cmt;
-    if (comment) {
-        self.topCommentLabel.text = [NSString stringWithFormat:@"%@:%@",comment.user.username,comment.content];
-        self.topCommentTopLabel.text = @"最热评论";
-    }else{
-        self.topCommentLabel.text = @"";
-        self.topCommentTopLabel.text = @"";
-    }
     
+    self.contentLabel.sd_layout.autoHeightRatio(0);
+    CGFloat height = video.height *kWidth /video.width;
+    self.videoImageView.sd_layout
+    .heightIs(height)
+    .widthIs(kWidth);
+    self.VideoContianerView.sd_layout
+    .heightIs(height)
+    .widthIs(kWidth);
+    bottomView.sd_layout
+    .topSpaceToView(self.VideoContianerView,10)
+    .leftEqualToView(self.contentView)
+    .rightEqualToView(self.contentView)
+    .heightIs(44);
+    NSLog(@"%f,%f",self.videoImageView.frame.size.width,self.videoImageView.frame.size.height);
+  //  NSLog(@"%f,%f",self.videoImageView.frame.size.height,self.videoImageView.frame.size.width);
+      [self setupAutoHeightWithBottomView:bottomView bottomMargin:10];
+//    YHVideoComment *comment = video.top_cmt;
+//    if (comment) {
+//        self.topCommentLabel.text = [NSString stringWithFormat:@"%@:%@",comment.user.username,comment.content];
+//        self.topCommentTopLabel.text = @"最热评论";
+//    }else{
+//        self.topCommentLabel.text = @"";
+//        self.topCommentTopLabel.text = @"";
+//    }
+//     [self.videoImageView.image sd_setImageWithURL:[NSURL URLWithString:video.image0]];
+    [self.videoImageView sd_setImageWithURL:[NSURL URLWithString:video.image1] placeholderImage:nil];
 }
--(UIImage *)imageManager:(SDWebImageManager *)imageManager transformDownloadedImage:(UIImage *)image withURL:(NSURL *)imageURL
-{
-    //
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0.0);
-    //获得上下文
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    //添加一个
-    CGRect rect = CGRectMake(0, 0, image.size.height, image.size.height);
-    CGContextAddEllipseInRect(context, rect);
-    //裁剪
-    CGContextClip(context);
-    //将图片画上去
-    [image drawInRect:rect];
-    UIImage *resultsImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return resultsImage;
-}
+//-(UIImage *)imageManager:(SDWebImageManager *)imageManager transformDownloadedImage:(UIImage *)image withURL:(NSURL *)imageURL
+//{
+//    //
+//    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0.0);
+//    //获得上下文
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    //添加一个
+//    CGRect rect = CGRectMake(0, 0, image.size.height, image.size.height);
+//    CGContextAddEllipseInRect(context, rect);
+//    //裁剪
+//    CGContextClip(context);
+//    //将图片画上去
+//    [image drawInRect:rect];
+//    UIImage *resultsImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return resultsImage;
+//}
 
 - (void)setupButton:(UIButton *)button WithTittle:(NSString *)tittle {
     double number = tittle.doubleValue;
