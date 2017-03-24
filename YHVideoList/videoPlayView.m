@@ -63,7 +63,7 @@
     self.timeLabel = [[UILabel alloc]init];
     [self.toolView addSubview:self.timeLabel];
     self.progressView = [[UIActivityIndicatorView alloc]init];
-    [self addSubview:self.progressView];
+    [self.toolView addSubview:self.progressView];
     self.tableView = [[UITableView alloc]init];
     [self addSubview:self.tableView];
     self.quanPingBtn = [[UIButton alloc]init];
@@ -83,22 +83,36 @@
     [self.playOrPauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.top.bottom.mas_equalTo(0);
-        make.width.mas_equalTo(self.playOrPauseBtn.mas_height);
+        make.width.height.mas_equalTo(40);
     }];
+   
     [self.quanPingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(0);
         make.top.bottom.mas_equalTo(0);
         make.width.mas_equalTo(self.quanPingBtn.mas_height);
     }];
+ 
+    [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.playOrPauseBtn.mas_right).offset(10);
+        make.top.bottom.mas_equalTo(0);
+        make.width.mas_equalTo(self.progressView.mas_height);
+    }];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.quanPingBtn.mas_left).offset(10);
         make.centerY.mas_equalTo(self.quanPingBtn.mas_centerY);
     }];
-    [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.playOrPauseBtn.mas_right).offset(10);
-        make.centerY.mas_equalTo(self.playOrPauseBtn.mas_centerY);
-        
+    self.timeLabel.numberOfLines = 1;
+    self.timeLabel.lineBreakMode = 0;
+    [self.progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.playOrPauseBtn.mas_right);
+        make.centerY.mas_equalTo(self.toolView.mas_centerY);
+        make.height.mas_equalTo(30);
+        make.right.mas_equalTo(self.timeLabel.mas_left);
     }];
+    self.playOrPauseBtn.backgroundColor = [UIColor yellowColor];
+    self.progressSlider.backgroundColor = [UIColor greenColor];
+    self.progressView.backgroundColor = [UIColor blueColor];
+    self.quanPingBtn.backgroundColor = [UIColor yellowColor];
     
     //暂停播放
     [[self.playOrPauseBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
@@ -250,7 +264,7 @@
 -(void)resetPlayView
 {
     [self suspendPlayVideo];
-    [self.playerLayer removeFromSuperlayer];
+//    [self.playerLayer removeFromSuperlayer];
     [self.player replaceCurrentItemWithPlayerItem:nil];
     self.player = nil;
     [self removeFromSuperview];
