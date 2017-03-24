@@ -50,9 +50,11 @@
 {
     self.player = [[AVPlayer alloc]init];
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+
     self.imageView = [[UIImageView alloc]init];
     [self addSubview:self.imageView];
     self.toolView = [[UIView alloc]init];
+    [self.imageView.layer addSublayer:self.playerLayer];
     [self addSubview:self.toolView];
     self.playOrPauseBtn = [[UIButton alloc]init];
     [self.toolView addSubview:self.playOrPauseBtn];
@@ -68,7 +70,9 @@
     [self.toolView addSubview:self.quanPingBtn];
     
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsZero);
+        make.top.mas_equalTo(0);
+        make.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(100);
     }];
     [self.toolView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
@@ -114,8 +118,8 @@
     [[self.quanPingBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         self.quanPingBtn.selected = !self.quanPingBtn.selected;
         //切换全屏代理
-        if (self.subjectDelegate) {
-            [self.subjectDelegate sendNext:@"1"];
+        if ([self.delegate respondsToSelector:@selector(videoplayViewSwitchOrientation:)]) {
+            [self.delegate videoplayViewSwitchOrientation:self.quanPingBtn.selected];
         }
     }];
     //播放进度
@@ -164,7 +168,7 @@
     self.playOrPauseBtn.selected = YES;
     
     [self removeProgressTimer];
-      [self addProgressTimer];
+    [self addProgressTimer];
     
 }
 
@@ -179,16 +183,10 @@
     [self removeProgressTimer];
 }
 
-
-
-
-
-
-
-
 -(void)dealloc
 {
-     [self.player replaceCurrentItemWithPlayerItem:nil];
+     [self.playeritem removeObserver:self forKeyPath:@"status"];
+    [self.player replaceCurrentItemWithPlayerItem:nil];
 }
 - (void)removeProgressTimer
 {

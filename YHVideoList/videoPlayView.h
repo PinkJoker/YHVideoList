@@ -8,10 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-@interface videoPlayView : UIView
+@protocol VideoPlayViewDelegate <NSObject>
 
+@optional
+- (void)videoplayViewSwitchOrientation:(BOOL)isFull;
+
+@end
+@interface videoPlayView : UIView
 @property(nonatomic, strong)AVPlayerItem *playeritem;
-@property(nonatomic, strong)RACSubject *subjectDelegate;
+//@property(nonatomic, strong)RACSubject *subjectDelegate;
+@property (weak, nonatomic) id<VideoPlayViewDelegate> delegate;
 -(void)suspendPlayVideo;
 -(void)resetPlayView;
 @end

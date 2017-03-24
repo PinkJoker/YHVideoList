@@ -9,20 +9,20 @@
 #import "YHVideoComment.h"
 
 @implementation YHVideoComment
+//
+//+(NSDictionary *)mj_replacedKeyFromPropertyName {
+//    return @{@"ID":@"id"};
+//}
 
-+(NSDictionary *)mj_replacedKeyFromPropertyName {
-    return @{@"ID":@"id"};
-}
-
--(void)encodeWithCoder:(NSCoder *)aCoder {
-    [self mj_encode:aCoder];
-}
-
--(instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self= [super init]) {
-        [self mj_decode:aDecoder];
-    }
-    return self;
-}
+//-(void)encodeWithCoder:(NSCoder *)aCoder {
+//    [self mj_encode:aCoder];
+//}
+//
+//-(instancetype)initWithCoder:(NSCoder *)aDecoder {
+//    if (self= [super init]) {
+//        [self mj_decode:aDecoder];
+//    }
+//    return self;
+//}
 
 @end

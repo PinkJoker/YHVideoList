@@ -9,7 +9,9 @@
 #import "VideoDataModal.h"
 #import "YHVideoComment.h"
 #import "YHConst.h"
+#import "VideoTableViewCell.h"
 
+static NSString * const VideoCell = @"VideoCell";
 @implementation VideoDataModal
 +(NSDictionary *)mj_replacedKeyFromPropertyName {
     return @{@"ID":@"id",
@@ -49,6 +51,23 @@
 //    
 //    return _cellHeight;
 //}
+
+//惰性初始化是这样写的 只会加载一次，不会造成循环引用的性能问题
+//-(CGFloat)cellHeight
+//{
+//    //只在初始化的时候调用一次就Ok
+//    if(!_cellHeight){
+//        VideoTableViewCell *cell=[[VideoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:VideoCell];
+//        NSLog(@"我要计算高度");
+//        // 调用cell的方法计算出高度
+//        _cellHeight=[cell cellHeightWithModal:self];
+//        
+//    }
+//    
+//    
+//    return _cellHeight;
+//}
+
 -(void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.ID forKey:@"ID"];
     [aCoder encodeObject:self.profile_image forKey:@"profile_image"];

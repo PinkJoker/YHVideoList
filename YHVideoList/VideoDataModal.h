@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @class YHVideoComment;
-@interface VideoDataModal : NSObject
+@interface VideoDataModal : NSObject<NSCoding>
 @property (nonatomic, copy) NSString *ID;
 @property (nonatomic, copy) NSString *profile_image;
 @property (nonatomic, copy) NSString *screen_name;
@@ -32,4 +32,6 @@
 @property (nonatomic, strong) YHVideoComment *top_cmt;
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, assign) CGRect videoFrame;
+
+
 @end

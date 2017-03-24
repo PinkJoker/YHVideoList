@@ -14,7 +14,7 @@
 #import "VideoTableViewCell.h"
 #import "videoPlayView.h"
 #import "FullViewController.h"
-@interface VideoViewController ()<UITableViewDataSource,UITableViewDelegate,VideoTableViewCellDelegate>
+@interface VideoViewController ()<UITableViewDataSource,UITableViewDelegate,VideoTableViewCellDelegate,VideoPlayViewDelegate>
 @property(nonatomic, strong)UITableView *videoTableView;
 @property(nonatomic, strong)NSMutableArray *videoArray;
 @property(nonatomic, assign)NSInteger currentPage;
@@ -28,6 +28,7 @@
 @property (nonatomic, weak) videoPlayView *playView;
 @property (nonatomic, strong) FullViewController *fullVc;
 @property (nonatomic, weak) VideoTableViewCell *currentSelectedCell;
+
 @end
 static NSString * const VideoCell = @"VideoCell";
 @implementation VideoViewController
@@ -53,28 +54,82 @@ static NSString * const VideoCell = @"VideoCell";
     self.videoTableView = [[UITableView alloc]init];
     [self.view addSubview:self.videoTableView];
     [self.videoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(64);
+        make.top.mas_equalTo(0);
         make.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(-49);
     }];
     self.videoTableView.dataSource = self;
     self.videoTableView.delegate = self;
-    self.automaticallyAdjustsScrollViewInsets = NO;
-//    self.videoTableView.contentInset = UIEdgeInsetsMake(C, <#CGFloat left#>, <#CGFloat bottom#>, <#CGFloat right#>)\
+
     
-    
-    videoPlayView *view = [[videoPlayView alloc]init];
-    [view.subjectDelegate subscribeNext:^(id x) {
-        if ([x isEqualToString:@"1"]) {
-            self.isFullScreenPlaying = YES;
-            [self presentViewController:self.fullVc animated:YES completion:^{
-                self.playView.frame = self.fullVc.view.bounds;
-                [self.fullVc.view addSubview:self.playView];
-            }];
-        }
+    @weakify(self);
+    [[self rac_signalForSelector:@selector(clickMoreButton:) fromProtocol:@protocol(VideoTableViewCellDelegate)]subscribeNext:^(id x) {
+        @strongify(self);
+        UIAlertController *controller =  [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        [controller addAction:[UIAlertAction actionWithTitle:@"收藏" style:UIAlertActionStyleDefault handler:nil]];
+        [controller addAction:[UIAlertAction actionWithTitle:@"举报" style:UIAlertActionStyleDefault handler:nil]];
+        [controller addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:controller animated:YES completion:nil];
+        
     }];
     
+//    [[self rac_signalForSelector:@selector(clickVideoButton:) fromProtocol:@protocol(VideoTableViewCellDelegate)]subscribeNext:^(RACTuple *indexPath) {
+//        [self.playView resetPlayView];
+//        VideoTableViewCell *cell = [self.videoTableView cellForRowAtIndexPath:indexPath.first];
+//        self.currentSelectedCell = cell;
+//        videoPlayView *playView = [[videoPlayView alloc]init];
+//        VideoDataModal *video = self.videoArray[[indexPath.first row]];
+//        playView.frame = video.videoFrame;
+//        [cell addSubview:playView];
+//        cell.playView = playView;
+//        self.playView = playView;
+//        
+//        
+////        [self.playView.subjectDelegate subscribeNext:^(id x) {
+//
+////        }];
+//        AVPlayerItem *item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:video.videouri]];
+//        self.playView.playeritem = item;
+//        
+//        
+//    }];
     
+    
+}
+#pragma mark VideoTableViewCell的代理方法
+-(void)clickVideoButton:(NSIndexPath *)indexPath {
+    [self.playView resetPlayView];
+    
+    VideoTableViewCell *cell = [self.videoTableView cellForRowAtIndexPath:indexPath];
+    self.currentSelectedCell = cell;
+    videoPlayView *playView = [[videoPlayView alloc]init];
+    VideoDataModal *video = self.videoArray[indexPath.row];
+    playView.frame = cell.VideoContianerView.frame;
+    [cell addSubview:playView];
+    cell.playView = playView;
+    self.playView = playView;
+    self.playView.delegate = self;
+    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:video.videouri]];
+    self.playView.playeritem = item;
+}
+#pragma mark VideoPlayViewDelegate 视频播放时窗口模式与全屏模式切换
+- (void)videoplayViewSwitchOrientation:(BOOL)isFull
+{
+    if (isFull) {
+        self.isFullScreenPlaying = YES;
+        [self presentViewController:self.fullVc animated:YES completion:^{
+            self.playView.frame = self.fullVc.view.bounds;
+            [self.fullVc.view addSubview:self.playView];
+        }];
+    } else {
+        [self.fullVc dismissViewControllerAnimated:YES completion:^{
+            self.playView.frame = self.currentSelectedCell.video.videoFrame;
+            [self.currentSelectedCell addSubview:self.playView];
+            self.isFullScreenPlaying = NO;
+            
+        }];
+        
+    }
 }
 
 #pragma mark - 懒加载代码
@@ -122,10 +177,19 @@ static NSString * const VideoCell = @"VideoCell";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id video = self.videoArray[indexPath.row];
+    VideoDataModal * video = self.videoArray[indexPath.row];
+//    VideoTableViewCell *vCell = [tableView dequeueReusableCellWithIdentifier:VideoCell];
+//    CGFloat cellH = [vCell cellHeightWithModal:video];
+//    
    CGFloat height1 = [tableView cellHeightForIndexPath:indexPath model:video keyPath:@"Video" cellClass:[VideoTableViewCell class] contentViewWidth:kWidth];
     return height1;
 }
+
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 300;
+}
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -137,15 +201,15 @@ static NSString * const VideoCell = @"VideoCell";
 }
 
 
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    if (self.playView.superview && self.isFullScreenPlaying == NO) {
-//        NSIndexPath *indexPath = [self.videoTableView indexPathForCell:self.currentSelectedCell];
-//        if (![self.videoTableView.indexPathsForVisibleRows containsObject:indexPath]) {//播放video的cell离开屏幕
-//            [self.playView resetPlayView];
-//        }
-//    }
-//}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.playView.superview && self.isFullScreenPlaying == NO) {
+        NSIndexPath *indexPath = [self.videoTableView indexPathForCell:self.currentSelectedCell];
+        if (![self.videoTableView.indexPathsForVisibleRows containsObject:indexPath]) {//播放video的cell离开屏幕
+            [self.playView resetPlayView];
+        }
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

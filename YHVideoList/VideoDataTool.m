@@ -90,7 +90,7 @@ static NSString *const apikey = @"8b72ce2839d6eea0869b4c2c60d2a449";
         }
         while (result.next) {
             NSData *data = [result dataForColumn:@"video"];
-            VideoModel *video = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+             VideoModel *video = [NSKeyedUnarchiver unarchiveObjectWithData:data];
             [videoArray addObject:video];
         }
     }];
