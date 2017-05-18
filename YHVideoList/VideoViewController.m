@@ -56,7 +56,7 @@ static NSString * const VideoCell = @"VideoCell";
     [self.videoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
         make.left.right.mas_equalTo(0);
-        make.bottom.mas_equalTo(-49);
+        make.bottom.mas_equalTo(0);
     }];
     self.videoTableView.dataSource = self;
     self.videoTableView.delegate = self;
@@ -73,45 +73,45 @@ static NSString * const VideoCell = @"VideoCell";
         
     }];
     
-//    [[self rac_signalForSelector:@selector(clickVideoButton:) fromProtocol:@protocol(VideoTableViewCellDelegate)]subscribeNext:^(RACTuple *indexPath) {
-//        [self.playView resetPlayView];
-//        VideoTableViewCell *cell = [self.videoTableView cellForRowAtIndexPath:indexPath.first];
-//        self.currentSelectedCell = cell;
-//        videoPlayView *playView = [[videoPlayView alloc]init];
-//        VideoDataModal *video = self.videoArray[[indexPath.first row]];
-//        playView.frame = video.videoFrame;
-//        [cell addSubview:playView];
-//        cell.playView = playView;
-//        self.playView = playView;
-//        
-//        
-////        [self.playView.subjectDelegate subscribeNext:^(id x) {
-//
-////        }];
-//        AVPlayerItem *item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:video.videouri]];
-//        self.playView.playeritem = item;
-//        
-//        
-//    }];
+    [[self rac_signalForSelector:@selector(clickVideoButton:) fromProtocol:@protocol(VideoTableViewCellDelegate)]subscribeNext:^(RACTuple *indexPath) {
+        [self.playView resetPlayView];
+        VideoTableViewCell *cell = [self.videoTableView cellForRowAtIndexPath:indexPath.first];
+        self.currentSelectedCell = cell;
+        videoPlayView *playView = [[videoPlayView alloc]init];
+        VideoDataModal *video = self.videoArray[[indexPath.first row]];
+        playView.frame = video.videoFrame;
+        [cell addSubview:playView];
+        cell.playView = playView;
+        self.playView = playView;
+        self.playView.delegate = self;
+        
+//        [self.playView.subjectDelegate subscribeNext:^(id x) {
+
+//        }];
+        AVPlayerItem *item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:video.videouri]];
+        self.playView.playeritem = item;
+        
+        
+    }];
     
     
 }
-#pragma mark VideoTableViewCell的代理方法
--(void)clickVideoButton:(NSIndexPath *)indexPath {
-    [self.playView resetPlayView];
-    
-    VideoTableViewCell *cell = [self.videoTableView cellForRowAtIndexPath:indexPath];
-    self.currentSelectedCell = cell;
-    videoPlayView *playView = [[videoPlayView alloc]init];
-    VideoDataModal *video = self.videoArray[indexPath.row];
-    playView.frame = cell.VideoContianerView.frame;
-    [cell addSubview:playView];
-    cell.playView = playView;
-    self.playView = playView;
-    self.playView.delegate = self;
-    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:video.videouri]];
-    self.playView.playeritem = item;
-}
+//#pragma mark VideoTableViewCell的代理方法
+//-(void)clickVideoButton:(NSIndexPath *)indexPath {
+//    [self.playView resetPlayView];
+//    
+//    VideoTableViewCell *cell = [self.videoTableView cellForRowAtIndexPath:indexPath];
+//    self.currentSelectedCell = cell;
+//    videoPlayView *playView = [[videoPlayView alloc]init];
+//    VideoDataModal *video = self.videoArray[indexPath.row];
+//    playView.frame = cell.VideoContianerView.frame;
+//    [cell addSubview:playView];
+//    cell.playView = playView;
+//    self.playView = playView;
+//    self.playView.delegate = self;
+//    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:video.videouri]];
+//    self.playView.playeritem = item;
+//}
 #pragma mark VideoPlayViewDelegate 视频播放时窗口模式与全屏模式切换
 - (void)videoplayViewSwitchOrientation:(BOOL)isFull
 {
@@ -178,9 +178,6 @@ static NSString * const VideoCell = @"VideoCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     VideoDataModal * video = self.videoArray[indexPath.row];
-//    VideoTableViewCell *vCell = [tableView dequeueReusableCellWithIdentifier:VideoCell];
-//    CGFloat cellH = [vCell cellHeightWithModal:video];
-//    
    CGFloat height1 = [tableView cellHeightForIndexPath:indexPath model:video keyPath:@"Video" cellClass:[VideoTableViewCell class] contentViewWidth:kWidth];
     return height1;
 }

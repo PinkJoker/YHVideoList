@@ -202,16 +202,6 @@
     self.contentLabel.font = [UIFont systemFontOfSize:16];
     self.createdTimeLabel.font = [UIFont systemFontOfSize:12];
     bottomView.backgroundColor = [UIColor darkGrayColor];
-//    self.contentLabel.lineBreakMode  = NSLineBreakByWordWrapping;
-//    self.contentLabel.numberOfLines = 0;
-//    bottomView.backgroundColor = [UIColor greenColor];
-//    self.headerImageView.backgroundColor = [UIColor yellowColor];
-//    self.nameLabel.backgroundColor = [UIColor cyanColor];
-//    self.createdTimeLabel.backgroundColor = [UIColor blueColor];
-//    self.AddFriendsButton.backgroundColor = [UIColor magentaColor];
-//    self.contentLabel.backgroundColor = [UIColor purpleColor];
-//    self.VideoContianerView.backgroundColor = [UIColor yellowColor];
-  //  [SDWebImageManager sharedManager].delegate = self;
 }
 
 

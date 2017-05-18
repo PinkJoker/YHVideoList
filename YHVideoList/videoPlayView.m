@@ -257,7 +257,7 @@
             [self.progressView stopAnimating];
         }
     }];
-    
+
     [self.player play];
 }
 
@@ -274,6 +274,8 @@
 {
     [super layoutSubviews];
     self.playerLayer.frame = self.bounds;
+    
+
 }
 
 /*
